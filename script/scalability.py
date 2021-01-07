@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 JSON = ".json"
-GA_PATH = '/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/Preliminar/'
 AVG_TIME = 'Average Elapsed Time (s)'
 CORES = 'num_of_cores'
 SPEEDUP = 'speedup'
@@ -28,7 +27,6 @@ def parse_files(path, verbose=True):
         group = configs.get(cores, [])
         with open(f'{path}/{file}') as f:
             j_file = json.load(f)
-            objectives = j_file['Results']['Objectives']
             elapsed_time = j_file['Name']['Elapsed Time']
             # Nos quedamos con el mejor resultado obtenido
             group.append(elapsed_time)
@@ -53,6 +51,7 @@ def parse_files(path, verbose=True):
     print(df)
     return df
 
+
 def to_speed_up_plot(df_results, size):
     df_results[SPEEDUP].plot(style='.-')
     plt.title(f'Speed-up for N={size} instances')
@@ -62,9 +61,12 @@ def to_speed_up_plot(df_results, size):
 
 
 if __name__ == "__main__":
-    path = "/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/Scalability"
+    parser = argparse.ArgumentParser(description='Scalability analysis')
+    parser.add_argument(
+        'path', type=str, help='Path to find the .json result files')
+    args = parser.parse_args()
+    path = args.path
     sizes = [50, 100, 500, 1000]
-
     for size in sizes:
         directory = f'{path}/{size}'
         df_results = parse_files(directory)
