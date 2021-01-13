@@ -15,6 +15,7 @@ DYNAMIC = 'Dynamic'
 DP = ".DP"
 JSON = ".json"
 DP_PATH = ''
+DIFF = 'Avg. difference with optimal'
 RATIO = 'Ratio Avg Objective / Avg Elapsed Time'
 AVG_TIME = 'Average Elapsed Time (s)'
 AVG_OBJS = 'Average Objective'
@@ -51,12 +52,12 @@ def parse_files(path, pattern, verbose=True):
     results = {}
     for key in configs:
         avg = np.average(configs[key], axis=0)
-        ratio = avg[0] / avg[1]
-        results[key] = [avg[0], avg[1], ratio]
+        diff_with_optimal = optimal - avg[0]
+        results[key] = [avg[0], avg[1], diff_with_optimal]
 
     results[DYNAMIC] = [optimal, dp_time, dp_ratio]
     df = pd.DataFrame.from_dict(results, orient='index',
-                                columns=[AVG_OBJS, AVG_TIME, RATIO])
+                                columns=[AVG_OBJS, AVG_TIME, DIFF])
     df.index.name = CONFIG
     print(df)
     return df
