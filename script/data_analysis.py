@@ -87,4 +87,4 @@ if __name__ == "__main__":
     for pattern in patterns:
         df_results = parse_files(path, pattern)
         df_results.to_csv(f'{pattern}.csv')
-        to_plot(df_results, pattern)
+        #to_plot(df_results, pattern)
