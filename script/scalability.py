@@ -15,20 +15,20 @@ CORES = 'num_of_cores'
 SPEEDUP = 'speedup'
 
 
-def parse_files(path, verbose=True):
+def parse_files(path, patterns, verbose=True):
     configs = {}
     for file in listdir(path):
-        key = file[:file.find('Inst') - 1]
-        cores = key[-1]
-        if cores == '0':
-            cores = 10
-        elif cores == 'q':
+        cores = 1
+        # En caso de ser una instancia secuencial
+        if(file.find('SEQ') != -1):
             cores = 1
+        else:
+            key = file[file.find('OMP') + 1: file.find('Inst') - 1]
+            cores = key[-1]
         group = configs.get(cores, [])
         with open(f'{path}/{file}') as f:
             j_file = json.load(f)
             elapsed_time = j_file['Name']['Elapsed Time']
-            # Nos quedamos con el mejor resultado obtenido
             group.append(elapsed_time)
             configs[cores] = group
 
@@ -61,9 +61,10 @@ def to_speed_up_plot(df_results, size):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Scalability analysis')
+    parser = argparse.ArgumentParser(description='Scalability')
     parser.add_argument(
         'path', type=str, help='Path to find the .json result files')
+
     args = parser.parse_args()
     path = args.path
     sizes = [50, 100, 500, 1000]
