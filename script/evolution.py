@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 JSON = ".json"
-GA_PATH = '/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/Preliminar/'
 EVOLUTION = 'Evolution'
 CORES = 'num_of_cores'
 SPEEDUP = 'speedup'
@@ -19,13 +18,14 @@ SPEEDUP = 'speedup'
 def parse_files(path, verbose=True):
     configs = {}
     for file in listdir(path):
-        key = file.split('_')[8]
-        group = configs.get(key, [])
-        with open(f'{path}/{file}') as f:
-            j_file = json.load(f)
-            evolution = j_file[EVOLUTION]
-            group.append(evolution)
-            configs[key] = group
+        if file.endswith(JSON):
+            key = file.split('_')[8]
+            group = configs.get(key, [])
+            with open(f'{path}/{file}') as f:
+                j_file = json.load(f)
+                evolution = j_file[EVOLUTION]
+                group.append(evolution)
+                configs[key] = group
 
     results = {}
     # Aprovechamos para calcular el speedup
@@ -37,8 +37,9 @@ def parse_files(path, verbose=True):
                                 columns=['avg_evolution'])
     df.index.name = 'Config'
     #unpacked_df = pd.DataFrame(df['avg_evolution'].to_list(), index=df.index)
-    #print(unpacked_df)
+    # print(unpacked_df)
     return df
+
 
 def to_evolution_plot(df_results, size):
     xs = np.arange(0, 342)
@@ -61,7 +62,7 @@ if __name__ == "__main__":
         'StronglyCorrelated',
         'Uncorrelated',
         'SubsetSum'
-        ]
+    ]
     for size in sizes:
         directory = f'{path}/{size}/'
         df_results = parse_files(directory)
