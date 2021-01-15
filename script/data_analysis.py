@@ -14,8 +14,8 @@ from sklearn import preprocessing
 DYNAMIC = 'Dynamic'
 DP = ".DP"
 JSON = ".json"
-DP_PATH = '/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/DynamicProgramming'
-GA_PATH = '/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/Preliminar/'
+DP_PATH = ''
+DIFF = 'Avg. difference with optimal'
 RATIO = 'Ratio Avg Objective / Avg Elapsed Time'
 AVG_TIME = 'Average Elapsed Time (s)'
 AVG_OBJS = 'Average Objective'
@@ -52,12 +52,12 @@ def parse_files(path, pattern, verbose=True):
     results = {}
     for key in configs:
         avg = np.average(configs[key], axis=0)
-        ratio = avg[0] / avg[1]
-        results[key] = [avg[0], avg[1], ratio]
+        diff_with_optimal = optimal - avg[0]
+        results[key] = [avg[0], avg[1], diff_with_optimal]
 
     results[DYNAMIC] = [optimal, dp_time, dp_ratio]
     df = pd.DataFrame.from_dict(results, orient='index',
-                                columns=[AVG_OBJS, AVG_TIME, RATIO])
+                                columns=[AVG_OBJS, AVG_TIME, DIFF])
     df.index.name = CONFIG
     print(df)
     return df
@@ -73,11 +73,19 @@ def to_plot(results, title):
 
 
 if __name__ == "__main__":
-    path = "/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/Preliminar/SpannerStronglyCorrelated/"
-    patterns = ["SpannerStronglyCorrelated_N_50_R_100_0", "SpannerStronglyCorrelated_N_100_R_100_0",
-                "SpannerStronglyCorrelated_N_500_R_100_0", "SpannerStronglyCorrelated_N_1000_R_100_0"]
+    parser = argparse.ArgumentParser(description='Data analysis')
+    parser.add_argument(
+        'path', type=str, help='Path to find the .json result files')
+    parser.add_argument('dp_path', type=str,
+                        help='Path to find the DP results')
+    parser.add_argument('-p', '--patterns', nargs='+',
+                        help='<Required> Instance patterns', required=True)
 
+    args = parser.parse_args()
+    path = args.path
+    DP_PATH = args.dp_path
+    patterns = args.patterns
     for pattern in patterns:
         df_results = parse_files(path, pattern)
         df_results.to_csv(f'{pattern}.csv')
-        to_plot(df_results, pattern)
+        #to_plot(df_results, pattern)
