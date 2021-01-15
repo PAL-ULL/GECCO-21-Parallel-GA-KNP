@@ -49,9 +49,6 @@ def parse_files(path, pattern, verbose=True):
     for file in listdir(path):
         # Buscamos todos los ficheros de resultados para la instancia concreta
         if re.match(inst_regex, file):
-            if(verbose):
-                print(f'Scanning file: {file}')
-
             key = file[:file.find('Inst') - 1]
             with open(f'{path}/{file}') as f:
                 j_file = json.load(f)
@@ -75,7 +72,6 @@ def parse_files(path, pattern, verbose=True):
                 print(f'\t-Avg. objective: {configs[key][OBJECTIVES]}')
                 print(f'\t-Avg. elapsed time: {configs[key][TIME]}')
                 print(f'\t-Avg. diff with optimal: {configs[key][DIFF]}\n\n')
-                print(configs[key][EVOLUTION])
 
     return configs
 
@@ -84,7 +80,7 @@ def plot_objs_evolution(configs, title, machine):
     plt.figure(figsize=(12, 8))
     plt.title(title)
     for key in configs.keys():
-        if key != DYNAMIC:
+        if key != DYNAMIC and 'OMP' not in key:
             plt.plot(configs[key][CHECKPOINTS],
                      configs[key][EVOLUTION], label=key)
 
