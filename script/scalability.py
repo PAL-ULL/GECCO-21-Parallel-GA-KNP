@@ -15,7 +15,7 @@ CORES = 'num_of_cores'
 SPEEDUP = 'speedup'
 
 
-def parse_files(path, patterns, verbose=True):
+def parse_files(path, verbose=True):
     configs = {}
     for file in listdir(path):
         cores = 1
@@ -23,8 +23,8 @@ def parse_files(path, patterns, verbose=True):
         if(file.find('SEQ') != -1):
             cores = 1
         else:
-            key = file[file.find('OMP') + 1: file.find('Inst') - 1]
-            cores = key[-1]
+            key = file[file.find('OMP') + 4: file.find('Inst') - 1]
+            cores = int(key)
         group = configs.get(cores, [])
         with open(f'{path}/{file}') as f:
             j_file = json.load(f)
