@@ -28,7 +28,7 @@ def parse_files(path, verbose=True):
         group = configs.get(cores, [])
         with open(f'{path}/{file}') as f:
             j_file = json.load(f)
-            elapsed_time = j_file['Name']['Elapsed Time']
+            elapsed_time = j_file['Algorithm']['Elapsed Time']
             group.append(elapsed_time)
             configs[cores] = group
 
