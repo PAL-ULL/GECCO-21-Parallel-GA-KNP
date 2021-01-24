@@ -57,12 +57,14 @@ def to_speed_up_plot(df_results, instance):
 
     print(df_results)
     plt.figure(figsize=(12, 8))
+    ticks = df_results.columns.values.tolist()
     for index, _ in df_results.iterrows():
         data = df_results.loc[index].values.tolist()
-        plt.plot(data, linestyle='-.', marker='o', label=index)
+        plt.plot(ticks, data, linestyle='-.', marker='o', label=index)
 
     plt.title(f'Speed-up for N-1000 {instance}')
     plt.ylabel('Speed-up')
+    plt.xticks(ticks)
     plt.legend()
     plt.savefig(f'Speed-up_{instance}.png')
     plt.clf()
