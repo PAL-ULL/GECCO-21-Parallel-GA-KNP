@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+import os
 from os import listdir
 import numpy as np
 import argparse
@@ -15,22 +15,33 @@ CORES = 'num_of_cores'
 SPEEDUP = 'speedup'
 
 
-def parse_files(path, verbose=True):
+def parse_files(rootdir, verbose=True):
     configs = {}
-    for file in listdir(path):
-        cores = 1
-        # En caso de ser una instancia secuencial
-        if(file.find('SEQ') != -1):
+    for subdir, dirs, files in os.walk(rootdir):
+        for file in files:
+            print(f'File: {file}')
+            config_name = file.split('_Inst_')[0]
+            config_cores = configs.get(config_name, {})
+            print(f'Configuration: {config_name}')
+
             cores = 1
-        else:
-            key = file[file.find('OMP') + 4: file.find('Inst') - 1]
-            cores = int(key)
-        group = configs.get(cores, [])
-        with open(f'{path}/{file}') as f:
-            j_file = json.load(f)
-            elapsed_time = j_file['Algorithm']['Elapsed Time']
-            group.append(elapsed_time)
-            configs[cores] = group
+            # En caso de ser una instancia secuencial
+            if(file.find('SEQ') != -1):
+                cores = 1
+            else:
+                key = file[file.find('OMP') + 4: file.find('Inst') - 1]
+                cores = int(key)
+            # Los resultados de la configuracion para el numero de cores especifico
+            cc_results = config_cores.get(cores, [])
+            filename = os.path.join(subdir, file)
+            with open(filename) as f:
+                j_file = json.load(f)
+                elapsed_time = j_file['Algorithm']['Elapsed Time']
+                cc_results.append(elapsed_time)
+                config_cores[cores] = cc_results
+                configs[config_name] = config_cores
+
+        pp(configs)
 
     results = {}
     avg_seq_time = np.average(configs[1], axis=0)
@@ -67,9 +78,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     path = args.path
-    sizes = [50, 100, 500, 1000]
-    for size in sizes:
-        directory = f'{path}/{size}'
-        df_results = parse_files(directory)
-        df_results.to_csv(f'Scalability_{size}.csv')
-        to_speed_up_plot(df_results, size)
+    df_results = parse_files(path)
+    df_results.to_csv(f'Scalability_{size}.csv')
+    to_speed_up_plot(df_results, size)
