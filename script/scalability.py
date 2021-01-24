@@ -19,11 +19,13 @@ def parse_files(rootdir, verbose=True):
     configs = {}
     for subdir, dirs, files in os.walk(rootdir):
         for file in files:
-            print(f'File: {file}')
+            if not file.endswith('_AVG_.json'):
+                continue
+
             config_name = file.split('_Inst_')[0]
+            config_name = config_name[: config_name.rfind('0_')]
             config_cores = configs.get(config_name, {})
             print(f'Configuration: {config_name}')
-
             cores = 1
             # En caso de ser una instancia secuencial
             if(file.find('SEQ') != -1):
@@ -31,43 +33,38 @@ def parse_files(rootdir, verbose=True):
             else:
                 key = file[file.find('OMP') + 4: file.find('Inst') - 1]
                 cores = int(key)
+
             # Los resultados de la configuracion para el numero de cores especifico
-            cc_results = config_cores.get(cores, [])
             filename = os.path.join(subdir, file)
             with open(filename) as f:
                 j_file = json.load(f)
-                elapsed_time = j_file['Algorithm']['Elapsed Time']
-                cc_results.append(elapsed_time)
-                config_cores[cores] = cc_results
+                elapsed_time = j_file['Average Elapsed Time (s)']
+                config_cores[cores] = elapsed_time
                 configs[config_name] = config_cores
 
-        pp(configs)
-
-    results = {}
-    avg_seq_time = np.average(configs[1], axis=0)
-    # Aprovechamos para calcular el speedup
-    for cores in configs:
-        if cores == 1:
-            results[cores] = [avg_seq_time, 1]
-        else:
-            avg = np.average(configs[cores], axis=0)
-            cores_speedup = avg_seq_time / avg
-            results[cores] = [avg, cores_speedup]
-
-    df = pd.DataFrame.from_dict(results, orient='index',
-                                columns=[AVG_TIME, SPEEDUP])
-    df.index.name = CORES
-    df.index = df.index.astype(int)
-    df.sort_index(inplace=True)
+    df = pd.DataFrame.from_dict(configs, orient='index')
+    df = df.reindex(sorted(df.columns), axis=1)
     print(df)
     return df
 
 
-def to_speed_up_plot(df_results, size):
-    df_results[SPEEDUP].plot(style='.-')
-    plt.title(f'Speed-up for N={size} instances')
+def to_speed_up_plot(df_results, instance):
+    for index, row in df_results.iterrows():
+        seq_time = row[1]
+        for column in df_results:
+            df_results.loc[index, column] = seq_time / \
+                df_results.loc[index, column]
+
+    print(df_results)
+    plt.figure(figsize=(12, 8))
+    for index, _ in df_results.iterrows():
+        data = df_results.loc[index].values.tolist()
+        plt.plot(data, linestyle='-.', marker='o', label=index)
+
+    plt.title(f'Speed-up for N-1000 {instance}')
     plt.ylabel('Speed-up')
-    plt.savefig(f'Speed-up_{size}.png')
+    plt.legend()
+    plt.savefig(f'Speed-up_{instance}.png')
     plt.clf()
 
 
@@ -77,7 +74,11 @@ if __name__ == "__main__":
         'path', type=str, help='Path to find the .json result files')
 
     args = parser.parse_args()
-    path = args.path
-    df_results = parse_files(path)
-    df_results.to_csv(f'Scalability_{size}.csv')
-    to_speed_up_plot(df_results, size)
+    rootdir = args.path
+    for subdir, dirs, _ in os.walk(rootdir):
+        for directory in dirs:
+            full_path = os.path.join(subdir, directory)
+            print(f'Directory {full_path}')
+            df_results = parse_files(full_path)
+            df_results.to_csv(f'Scalability_{directory}.csv')
+            to_speed_up_plot(df_results, directory)
