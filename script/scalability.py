@@ -15,6 +15,29 @@ CORES = 'num_of_cores'
 SPEEDUP = 'speedup'
 
 
+def parse_from_csv(files_and_threads, verbose=True):
+    speedup_data = []
+    avg_seq_time = 0
+    for file, threads in files_and_threads:
+        df = pd.read_csv(
+            file, names=['instance', 'avg_fitness', 'avg_infeasibility', 'avg_time'])
+        df['threads'] = threads
+        if threads == 1:
+            avg_seq_time = df['avg_time'].mean()
+
+        speedup_data.append(avg_seq_time / df['avg_time'].mean())
+        if verbose:
+            print(df.head())
+
+    plt.plot([1, 2, 5, 10, 20, 25], speedup_data,
+             linestyle='-.', marker='o')
+    plt.xlabel('number of threads')
+    plt.ylabel('avg. speedup among instances')
+    plt.title('Avg. Speedup for KP instances of N=1000 items')
+    plt.show()
+    return speedup_data
+
+
 def parse_files(rootdir, verbose=True):
     configs = {}
     for subdir, dirs, files in os.walk(rootdir):
@@ -72,15 +95,25 @@ def to_speed_up_plot(df_results, instance):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Scalability')
-    parser.add_argument(
-        'path', type=str, help='Path to find the .json result files')
+    files_and_threads = [
+        ('/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/script/1_thread.csv', 1),
+        ('/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/script/2_threads.csv', 2),
+        ('/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/script/5_threads.csv', 5),
+        ('/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/script/10_threads.csv', 10),
+        ('/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/script/20_threads.csv', 20),
+        ('/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/script/25_threads.csv', 25)
+    ]
+    speedup_data = parse_from_csv(files_and_threads)
+    print(speedup_data)
+    # parser.add_argument(
+    #    'path', type=str, help='Path to find the .json result files')
 
-    args = parser.parse_args()
-    rootdir = args.path
-    for subdir, dirs, _ in os.walk(rootdir):
-        for directory in dirs:
-            full_path = os.path.join(subdir, directory)
-            print(f'Directory {full_path}')
-            df_results = parse_files(full_path)
-            df_results.to_csv(f'Scalability_{directory}.csv')
-            to_speed_up_plot(df_results, directory)
+    #args = parser.parse_args()
+    #rootdir = args.path
+    # for subdir, dirs, _ in os.walk(rootdir):
+    #    for directory in dirs:
+    #        full_path = os.path.join(subdir, directory)
+    #        print(f'Directory {full_path}')
+    #        df_results = parse_files(full_path)
+    #        df_results.to_csv(f'Scalability_{directory}.csv')
+    #        to_speed_up_plot(df_results, directory)
