@@ -55,14 +55,14 @@ def parse_files(path, pattern, verbose=True):
 
             avg_objectives = j_file['Average Objective']
             avg_elapsed_time = j_file["Average Elapsed Time (s)"]
-            avg_evolution = np.asarray(j_file['Average Evolution'])
-            checkpoints, avg_evolution = avg_evolution.T
+            #avg_evolution = np.asarray(j_file['Average Evolution'])
+            #checkpoints, avg_evolution = avg_evolution.T
 
             diff_with_optimal = optimal - avg_objectives
             # Nos quedamos con el mejor resultado obtenido
             configs[key] = {
-                EVOLUTION: avg_evolution,
-                CHECKPOINTS: checkpoints,
+                # EVOLUTION: avg_evolution,
+                # CHECKPOINTS: checkpoints,
                 TIME: avg_elapsed_time,
                 OBJECTIVES: avg_objectives,
                 DIFF: diff_with_optimal
@@ -118,5 +118,5 @@ if __name__ == "__main__":
     patterns = args.patterns
     for pattern in patterns:
         configs = parse_files(path, pattern)
-        plot_objs_evolution(configs, pattern, args.machine)
+        #plot_objs_evolution(configs, pattern, args.machine)
         to_csv(configs, pattern, args.machine)

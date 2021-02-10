@@ -46,26 +46,22 @@ def parse_files(rootdir, verbose=True):
                 continue
 
             config_name = file.split('_Inst_')[0]
-            config_name = config_name[: config_name.rfind('0_')]
-            config_cores = configs.get(config_name, {})
-            print(f'Configuration: {config_name}')
-            cores = 1
-            # En caso de ser una instancia secuencial
-            if(file.find('SEQ') != -1):
-                cores = 1
-            else:
-                key = file[file.find('OMP') + 4: file.find('Inst') - 1]
-                cores = int(key)
+            config_and_threads = config_name.split('_TH_')
+            config_name = config_and_threads[0]
+            cores = int(config_and_threads[1])
+            print(f'Configuration {config_name} with {cores} cores')
 
+            if config_name not in configs:
+                configs[config_name] = {}
             # Los resultados de la configuracion para el numero de cores especifico
             filename = os.path.join(subdir, file)
             with open(filename) as f:
                 j_file = json.load(f)
                 elapsed_time = j_file['Average Elapsed Time (s)']
-                config_cores[cores] = elapsed_time
-                configs[config_name] = config_cores
+                configs[config_name][cores] = elapsed_time
 
     df = pd.DataFrame.from_dict(configs, orient='index')
+    df.index.name = 'configuration'
     df = df.reindex(sorted(df.columns), axis=1)
     print(df)
     return df
@@ -95,25 +91,15 @@ def to_speed_up_plot(df_results, instance):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Scalability')
-    files_and_threads = [
-        ('/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/script/1_thread.csv', 1),
-        ('/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/script/2_threads.csv', 2),
-        ('/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/script/5_threads.csv', 5),
-        ('/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/script/10_threads.csv', 10),
-        ('/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/script/20_threads.csv', 20),
-        ('/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/script/25_threads.csv', 25)
-    ]
-    speedup_data = parse_from_csv(files_and_threads)
-    print(speedup_data)
-    # parser.add_argument(
-    #    'path', type=str, help='Path to find the .json result files')
+    parser.add_argument(
+        'path', type=str, help='Path to find the .json result files')
 
-    #args = parser.parse_args()
-    #rootdir = args.path
-    # for subdir, dirs, _ in os.walk(rootdir):
-    #    for directory in dirs:
-    #        full_path = os.path.join(subdir, directory)
-    #        print(f'Directory {full_path}')
-    #        df_results = parse_files(full_path)
-    #        df_results.to_csv(f'Scalability_{directory}.csv')
-    #        to_speed_up_plot(df_results, directory)
+    args = parser.parse_args()
+    rootdir = args.path
+    for subdir, dirs, _ in os.walk(rootdir):
+        for directory in dirs:
+            full_path = os.path.join(subdir, directory)
+            print(f'Directory {full_path}')
+            df_results = parse_files(full_path)
+            df_results.to_csv(f'Scalability_{directory}.csv')
+            to_speed_up_plot(df_results, directory)
