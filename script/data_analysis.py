@@ -49,14 +49,15 @@ def parse_files(path, pattern, verbose=True):
     for file in listdir(path):
         # Buscamos todos los ficheros de resultados para la instancia concreta
         if re.match(inst_regex, file):
-            key = file[:file.find('Inst') - 1]
+            key = file[file.find('MR'): file.find('Inst') - 1]
+            #key = file[:file.find('Inst') - 1]
             with open(f'{path}/{file}') as f:
                 j_file = json.load(f)
 
             avg_objectives = j_file['Average Objective']
             avg_elapsed_time = j_file["Average Elapsed Time (s)"]
-            #avg_evolution = np.asarray(j_file['Average Evolution'])
-            #checkpoints, avg_evolution = avg_evolution.T
+            # avg_evolution = np.asarray(j_file['Average Evolution'])
+            # checkpoints, avg_evolution = avg_evolution.T
 
             diff_with_optimal = optimal - avg_objectives
             # Nos quedamos con el mejor resultado obtenido
@@ -73,7 +74,18 @@ def parse_files(path, pattern, verbose=True):
                 print(f'\t-Avg. elapsed time: {configs[key][TIME]}')
                 print(f'\t-Avg. diff with optimal: {configs[key][DIFF]}\n\n')
 
-    return configs
+    df = pd.DataFrame.from_dict(configs, orient='index')
+    return configs, df
+
+
+def plot_diff_with_optimal(configs_df, title, machine):
+    plt.figure(figsize=(24, 16))
+    configs_df.plot.bar(y=OBJECTIVES, color=[
+                        'red', 'blue', 'orange', 'green', 'purple', 'brown',
+                        'slateblue'], title=title, legend=False)
+    plt.ylabel(OBJECTIVES)
+    plt.tight_layout()
+    plt.savefig(f'{title}_{machine}.png')
 
 
 def plot_objs_evolution(configs, title, machine):
@@ -117,6 +129,6 @@ if __name__ == "__main__":
     DP_PATH = args.dp_path
     patterns = args.patterns
     for pattern in patterns:
-        configs = parse_files(path, pattern)
-        #plot_objs_evolution(configs, pattern, args.machine)
+        configs, configs_df = parse_files(path, pattern)
+        plot_diff_with_optimal(configs_df, pattern, args.machine)
         to_csv(configs, pattern, args.machine)
