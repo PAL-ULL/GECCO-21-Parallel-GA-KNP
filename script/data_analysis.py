@@ -80,10 +80,12 @@ def parse_files(path, pattern, verbose=True):
 
 def plot_diff_with_optimal(configs_df, title, machine):
     plt.figure(figsize=(24, 16))
-    configs_df.plot.bar(y=OBJECTIVES, color=[
-                        'red', 'blue', 'orange', 'green', 'purple', 'brown',
-                        'slateblue'], title=title, legend=False)
-    plt.ylabel(OBJECTIVES)
+    ax = configs_df.plot(kind='bar', y=OBJECTIVES, color=[
+        'red', 'darkgrey'], title=title, legend=False)
+    for bar in ax.patches[1:]:
+        bar.set_facecolor('#888888')
+
+    plt.ylabel('Avg. Best Fitness against Optimal')
     plt.tight_layout()
     plt.savefig(f'{title}_{machine}.png')
 
