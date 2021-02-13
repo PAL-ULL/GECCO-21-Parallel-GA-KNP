@@ -49,21 +49,21 @@ def parse_files(path, pattern, verbose=True):
     for file in listdir(path):
         # Buscamos todos los ficheros de resultados para la instancia concreta
         if re.match(inst_regex, file):
-            key = file[file.find('MR'): file.find('Inst') - 1]
+            key = file[: file.find('TH') - 1]  # : file.find('Inst') - 1]
             #key = file[:file.find('Inst') - 1]
             with open(f'{path}/{file}') as f:
                 j_file = json.load(f)
 
             avg_objectives = j_file['Average Objective']
             avg_elapsed_time = j_file["Average Elapsed Time (s)"]
-            # avg_evolution = np.asarray(j_file['Average Evolution'])
-            # checkpoints, avg_evolution = avg_evolution.T
+            avg_evolution = np.asarray(j_file['Average Evolution'])
+            checkpoints, avg_evolution = avg_evolution.T
 
             diff_with_optimal = optimal - avg_objectives
             # Nos quedamos con el mejor resultado obtenido
             configs[key] = {
-                # EVOLUTION: avg_evolution,
-                # CHECKPOINTS: checkpoints,
+                EVOLUTION: avg_evolution,
+                CHECKPOINTS: checkpoints,
                 TIME: avg_elapsed_time,
                 OBJECTIVES: avg_objectives,
                 DIFF: diff_with_optimal
@@ -94,7 +94,7 @@ def plot_objs_evolution(configs, title, machine):
     plt.figure(figsize=(12, 8))
     plt.title(title)
     for key in configs.keys():
-        if key != DYNAMIC and 'OMP' not in key:
+        if key != DYNAMIC:
             plt.plot(configs[key][CHECKPOINTS],
                      configs[key][EVOLUTION], label=key)
 
@@ -102,7 +102,7 @@ def plot_objs_evolution(configs, title, machine):
     plt.xlabel(CHECKPOINTS)
     plt.legend()
     plt.tight_layout()
-    plt.savefig(f'{title}_{machine}.png')
+    plt.savefig(f'{title}_evolution_{machine}.png')
     plt.clf()
 
 
@@ -133,4 +133,5 @@ if __name__ == "__main__":
     for pattern in patterns:
         configs, configs_df = parse_files(path, pattern)
         plot_diff_with_optimal(configs_df, pattern, args.machine)
+        plot_objs_evolution(configs, pattern, args.machine)
         to_csv(configs, pattern, args.machine)
