@@ -54,22 +54,24 @@ def parse_files(path, pattern, verbose=True):
             with open(f'{path}/{file}') as f:
                 j_file = json.load(f)
 
+            best_objectives = j_file['Best objectives']
             avg_objectives = j_file['Average Objective']
             avg_elapsed_time = j_file["Average Elapsed Time (s)"]
-            avg_evolution = np.asarray(j_file['Average Evolution'])
-            checkpoints, avg_evolution = avg_evolution.T
-
             diff_with_optimal = optimal - avg_objectives
             # Nos quedamos con el mejor resultado obtenido
             configs[key] = {
-                EVOLUTION: avg_evolution,
-                CHECKPOINTS: checkpoints,
                 TIME: avg_elapsed_time,
                 OBJECTIVES: avg_objectives,
                 DIFF: diff_with_optimal
             }
+            all_files = file[:file.find('.kp_AVG_.json')] + '.allHV'
+            with open(all_files, 'w') as new_file:
+                for obj in best_objectives:
+                    new_file.write(f'{obj}\n')
+
             if(verbose):
                 print(f'Resume of {key}\n')
+                print(f'Best objectives: {best_objectives}')
                 print(f'\t-Avg. objective: {configs[key][OBJECTIVES]}')
                 print(f'\t-Avg. elapsed time: {configs[key][TIME]}')
                 print(f'\t-Avg. diff with optimal: {configs[key][DIFF]}\n\n')
@@ -133,5 +135,4 @@ if __name__ == "__main__":
     for pattern in patterns:
         configs, configs_df = parse_files(path, pattern)
         plot_diff_with_optimal(configs_df, pattern, args.machine)
-        plot_objs_evolution(configs, pattern, args.machine)
         to_csv(configs, pattern, args.machine)
