@@ -1,0 +1,18 @@
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50
+Configuration & Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. & W & L & Ranking \\ \hline
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_80_Evals300K_CR_1.0_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_160_Evals300K_CR_0.9_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_40_Evals300K_CR_0.9_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1344 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_120_Evals300K_CR_1.0_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_120_Evals300K_CR_0.7_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_40_Evals300K_CR_0.8_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_160_Evals300K_CR_1.0_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_120_Evals300K_CR_0.9_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_80_Evals300K_CR_0.7_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_160_Evals300K_CR_0.7_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_80_Evals300K_CR_0.8_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_120_Evals300K_CR_0.8_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_40_Evals300K_CR_1.0_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_40_Evals300K_CR_0.7_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1342 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_80_Evals300K_CR_0.9_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
+/home/amarrero/Proyectos/CEC-2021-Parallel-GA-KNP/results/rayo/SubsetSum/50/ParGA_PopSize_160_Evals300K_CR_0.8_TH_1_Inst_SubsetSum_N_50_R_100_0.allHV & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 \\
