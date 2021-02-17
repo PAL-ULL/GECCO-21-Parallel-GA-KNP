@@ -1,0 +1,18 @@
+
+Configuration & Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. & W & L & Ranking  
+ParGA_PopSize_80_Evals300K_CR_1.0_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_160_Evals300K_CR_0.9_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_40_Evals300K_CR_0.9_TH_1 & 1344 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_120_Evals300K_CR_1.0_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_120_Evals300K_CR_0.7_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_40_Evals300K_CR_0.8_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_160_Evals300K_CR_1.0_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_120_Evals300K_CR_0.9_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_80_Evals300K_CR_0.7_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_160_Evals300K_CR_0.7_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_80_Evals300K_CR_0.8_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_120_Evals300K_CR_0.8_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_40_Evals300K_CR_1.0_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_40_Evals300K_CR_0.7_TH_1 & 1342 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_80_Evals300K_CR_0.9_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
+ParGA_PopSize_160_Evals300K_CR_0.8_TH_1 & 1345 & 1345 & 1345 & 1345 & 1345 & 1345 & 0 & 0 & 0 
