@@ -29,9 +29,9 @@ def parse_from_csv(files_and_threads, verbose=True):
         if verbose:
             print(df.head())
 
-    plt.plot([1, 2, 5, 10, 20, 25], speedup_data,
+    plt.plot([1, 2, 4, 5, 8, 10, 16, 20, 32, 40], speedup_data,
              linestyle='-.', marker='o')
-    plt.xlabel('number of threads')
+    plt.xlabel('number of cores')
     plt.ylabel('avg. speedup among instances')
     plt.title('Avg. Speedup for KP instances of N=1000 items')
     plt.show()
