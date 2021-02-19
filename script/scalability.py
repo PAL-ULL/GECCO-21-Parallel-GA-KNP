@@ -96,10 +96,18 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     rootdir = args.path
+    dataframes = []
     for subdir, dirs, _ in os.walk(rootdir):
         for directory in dirs:
             full_path = os.path.join(subdir, directory)
             print(f'Directory {full_path}')
             df_results = parse_files(full_path)
+            copy = df_results.copy()
+            copy.index = [directory]
+            dataframes.append(copy)
             df_results.to_csv(f'Scalability_{directory}.csv')
             to_speed_up_plot(df_results, directory)
+
+    merged_df = pd.concat(dataframes)
+    print(merged_df)
+    merged_df.T.to_csv(f'Scalability_Combined.csv')
