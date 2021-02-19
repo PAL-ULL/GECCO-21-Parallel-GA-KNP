@@ -1,6 +1,6 @@
 # Scalability Evaluation Results
 
-| Numer of Cores 	|      SubsetSum     	|    Uncorrelated    	|  InverseCorrelated 	| StronglyCorrelated 	| SpannerStronglyCorrelated 	|
+| Number of Cores 	|      SubsetSum     	|    Uncorrelated    	|  InverseCorrelated 	| StronglyCorrelated 	| SpannerStronglyCorrelated 	|
 |:--------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:-------------------------:	|
 | 1              	| 14.167716641399997 	| 14.167656611999998 	| 14.168137483400004 	| 14.166168790299997 	| 14.165950432166666        	|
 | 2              	| 7.669251937833335  	| 7.938652149033334  	| 7.862563690166667  	| 7.8359765293       	| 7.773169072199999         	|
