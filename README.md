@@ -1,8 +1,6 @@
 
 # A Parallel Genetic Algorithm to Speed Up the Resolution of the Algorithm Selection Problem
 
-## Work submitted to: [Congress on Evolutionary Computation - CEC 2021](https://cec2021.mini.pw.edu.pl/)
-
 ### Authors:
 
 - Alejandro Marrero --- [@amarrerod](https://github.com/amarrerod)
