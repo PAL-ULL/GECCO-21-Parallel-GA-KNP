@@ -1,5 +1,5 @@
 
-# A Parallel Genetic Algorithm to Speed Up the Resolution of the Algorithm Selection Problem
+# First steps to solve the Algorithm Selection Problem through a Parallel Genetic Algorithm 
 
 ### Authors:
 
